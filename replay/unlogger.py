@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import argparse
 import os
 import sys
@@ -110,7 +111,7 @@ class UnloggerWorker(object):
         img = self._frame_reader.get(frame_id, pix_fmt="yuv420p")
         fr_time = time.time() - s1
         if fr_time > 0.05:
-          print "FRAME(%d) LAG -- %.2f ms" % (frame_id, fr_time*1000.0)
+          print("FRAME(%d) LAG -- %.2f ms" % (frame_id, fr_time * 1000.0))
 
         if img is not None:
           smsg.frame.image = img.tobytes()
@@ -140,9 +141,9 @@ class UnloggerWorker(object):
       exit()
 
     if seek_to is not None:
-      print "seeking", seek_to
+      print ("seeking", seek_to)
       if not self._lr.seek(seek_to):
-        print "Can't seek: time out of bounds"
+        print ("Can't seek: time out of bounds")
       else:
         next(self._lr)   # ignore one
     return route
@@ -238,7 +239,7 @@ def unlogger_thread(command_address, forward_commands_address, data_address, run
 
       # Print time.
       if abs(printed_at - route_time) > 5.:
-        print "at", route_time
+        print ("at", route_time)
         printed_at = route_time
 
       if typ not in send_funcs:
@@ -262,7 +263,7 @@ def unlogger_thread(command_address, forward_commands_address, data_address, run
         lag = msg_time_offset - real_time_offset
         if lag > 0 and lag < 30: # a large jump is OK, likely due to an out of order segment
           if lag > 1:
-            print "sleeping for", lag
+            print ("sleeping for", lag)
           time.sleep(lag)
         elif lag < -1:
           # Relax the real time schedule when we slip far behind.
@@ -396,7 +397,7 @@ def main(argv):
     command_sock.send_pyobj(
       SetRoute(args.route_name, 0, args.data_dir))
   else:
-    print "waiting for external command..."
+    print ("waiting for external command...")
     route_start_time = 0
 
   subprocesses = {}

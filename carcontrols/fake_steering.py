@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import print_function
+from __future__ import print_function
 import struct
 import zmq
 import time
@@ -20,7 +22,7 @@ def steer_thread():
   
   CI, CP = get_car(logcan, sendcan, None)
 
-  print "got car", CP.carName
+  print("got car", CP.carName)
   CC = car.CarControl.new_message()
 
   i = 0
@@ -46,7 +48,7 @@ def steer_thread():
     actuators.steer = axis_3
     actuators.steerAngle = axis_3 * 43.   # deg
 
-    print "steer", actuators.steer
+    print("steer", actuators.steer)
 
     CC.actuators.steer = actuators.steer
     CC.actuators.steerAngle = actuators.steerAngle
